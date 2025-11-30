@@ -5,6 +5,7 @@ bin/
 *.so
 *.dylib
 *.test
+.env
 
 # Build output
 /dist
@@ -17,3 +18,4 @@ out/
 
 # OS files
 .DS_Store
+.env
