@@ -1,4 +1,4 @@
-# my-girlfriend 🤖💕
+# my-girlfriend 
 
 A conversational CLI tool powered by **Google Gemini AI** that lets you chat with different AI personas. Choose from a supportive girlfriend, a senior engineer, or a helpful assistant—each with their own personality and communication style.
 
