@@ -135,6 +135,58 @@ It uses HTTP methods (GET, POST, PUT, DELETE) to perform CRUD operations on reso
   ```
  - Or use the helper function (if you add a command) to clear memory programmatically.
 
+## Docker Deployment
+
+### Prerequisites
+- **Docker** and **Docker Compose** installed
+
+### Build Docker Image
+```bash
+docker build -t my-girlfriend:latest .
+```
+
+### Run with Docker (Interactive)
+```bash
+docker run --rm \
+  -e GEMINI_API_KEY="your-api-key" \
+  my-girlfriend:latest chat "Hello, how are you?"
+```
+
+### Run with Docker Compose
+Set your API key in the environment, then:
+```bash
+export GEMINI_API_KEY="your-gemini-api-key"
+docker-compose up --build
+```
+
+To override the default command:
+```bash
+docker-compose run --rm my-girlfriend chat -p engineer "Explain Docker"
+```
+
+### Persist Chat History in Docker
+The `docker-compose.yml` mounts `~/.my-girlfriend` to preserve chat history between container runs:
+```bash
+# First run (creates history)
+docker-compose run --rm my-girlfriend chat "Hello!"
+
+# Second run (history is available)
+docker-compose run --rm my-girlfriend chat "Do you remember me?"
+```
+
+### Image Details
+- **Base Image**: `alpine:latest` (minimal ~5-10 MB runtime)
+- **Build Image**: `golang:1.25.4-alpine` (compilation stage only)
+- **Multi-stage build**: Reduces final image size significantly
+- **Binary**: Statically compiled with `CGO_ENABLED=0`
+- **CA Certificates**: Included for HTTPS/API calls
+
+### Push to Registry (Optional)
+```bash
+docker tag my-girlfriend:latest your-registry/my-girlfriend:latest
+docker push your-registry/my-girlfriend:latest
+```
+
 ## API & Technology Stack
 
 - **[Google Generative AI (Gemini)](https://ai.google.dev/)**: State-of-the-art language model (gemini-2.0-flash)

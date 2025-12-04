@@ -2,9 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"my-girlfriend/internal"
+	"github.com/Syedowais312/CLI-Girlfriend/internal"
 	"time"
-
+    "strings"
 	"github.com/spf13/cobra"
 )
 
@@ -47,8 +47,16 @@ var chatCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-
-		fmt.Println(internal.Color(internal.Magenta,"\n💖 Girlfriend:"))
+		role := "Assistant"
+		switch strings.ToLower(persona) {
+		case "engineer":
+			role = "engineer"
+		case "girlfriend":
+			role = "💖 Girlfriend"
+		default:
+			role = "Assistant"
+		}
+		fmt.Println(internal.Color(internal.Magenta,"\n"+role))
 		fmt.Println(internal.Color(internal.Green," "+resp))
 
 		return nil

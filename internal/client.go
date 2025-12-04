@@ -7,7 +7,7 @@ import (
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
-	"my-girlfriend/model"
+	"github.com/Syedowais312/CLI-Girlfriend/model"
 )
 func QueryChatbotAPI(systemPrompt, userPrompt string) (string, error) {
 	ctx := context.Background()

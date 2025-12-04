@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
-	"my-girlfriend/model"
+	"github.com/Syedowais312/CLI-Girlfriend/model"
 )
 
 func getHistoryPath() (string, error) {

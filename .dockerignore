@@ -1,0 +1,20 @@
+# Docker build context exclusions
+.git
+.gitignore
+.env
+.env.local
+*.md
+LICENSE
+my-girlfriend
+cmd/
+internal/
+model/
+.DS_Store
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.github
+.git/
+node_modules/

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"my-girlfriend/internal"
+	"github.com/Syedowais312/CLI-Girlfriend/internal"
 
 	"github.com/spf13/cobra"
 )

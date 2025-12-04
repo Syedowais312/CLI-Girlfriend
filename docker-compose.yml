@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  my-girlfriend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: my-girlfriend-chat
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      # Mount the home directory so chat history persists
+      - ~/.my-girlfriend:/.my-girlfriend
+    stdin_open: true
+    tty: true
+    # Example command - override as needed
+    command: chat "Hello, how are you?"
