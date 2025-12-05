@@ -3,17 +3,14 @@ FROM golang:1.25.4-alpine AS builder
 
 WORKDIR /build
 
-# Copy go mod files
-COPY go.mod go.sum ./
+# Copy all project files
+COPY . .
 
 # Download dependencies
 RUN go mod download
 
-# Copy source code
-COPY . .
-
-# Build the binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o my-girlfriend
+# Build the binary (using local module path, Go should resolve it automatically)
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -ldflags="-w -s" -o my-girlfriend
 
 # Stage 2: Runtime
 FROM alpine:latest

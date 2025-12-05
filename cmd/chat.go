@@ -3,12 +3,14 @@ package cmd
 import (
 	"fmt"
 	"github.com/Syedowais312/CLI-Girlfriend/internal"
-	"time"
-    "strings"
 	"github.com/spf13/cobra"
+	"strings"
+	
 )
 
 var persona string
+var pixelCols int
+var pixelRows int
 
 var chatCmd = &cobra.Command{
 	Use:   "chat [Input]",
@@ -24,22 +26,19 @@ var chatCmd = &cobra.Command{
 		// Choose persona
 		systemPrompt := getPersonaPrompt(persona)
 
-		// Spinner animation
-		frames := []string{"⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏"}
+		// NOTE: static pre-render removed. Animation will render frames including
+		// the first frame to avoid races between two concurrent renderers.
 
-		thinking := true
-		go func() {
-			i := 0
-			for thinking {
-				fmt.Printf("\r%s %s",
-					internal.Color(internal.Yellow, "Thinking"),
-					internal.Color(internal.Cyan, frames[i%len(frames)]),
-				)
-				time.Sleep(120 * time.Millisecond)
-				i++
-			}
-			fmt.Print("\r                          \r") // clear line
-		}()
+	thinking := true
+
+	go internal.RenderPixelAnimation([]string{
+		"assets/image.png",
+		"assets/image_2.png",
+		"assets/image_3.png",
+		"assets/image_4.png",
+		"assets/image_5.png",
+		}, pixelCols, pixelRows, &thinking, 120)
+
 		// Query Gemini
 		resp, err := internal.QueryChatbotAPI(systemPrompt, prompt)
 		thinking = false
@@ -56,8 +55,8 @@ var chatCmd = &cobra.Command{
 		default:
 			role = "Assistant"
 		}
-		fmt.Println(internal.Color(internal.Magenta,"\n"+role))
-		fmt.Println(internal.Color(internal.Green," "+resp))
+		fmt.Println(internal.Color(internal.Magenta, "\n"+role))
+		fmt.Println(internal.Color(internal.Green, " "+resp))
 
 		return nil
 	},
@@ -86,4 +85,8 @@ func init() {
 		"girlfriend",
 		"Choose persona: girlfriend, engineer",
 	)
+
+	// Image rendering size (columns x rows). Lower cols/rows => larger "pixels" in terminal.
+	chatCmd.Flags().IntVarP(&pixelCols, "cols", "c", 100, "Image columns for terminal rendering (higher = clearer image)")
+	chatCmd.Flags().IntVarP(&pixelRows, "rows", "r", 80, "Image rows for terminal rendering (higher = clearer image)")
 }
